@@ -1,0 +1,57 @@
+name: weixin
+2
+on:
+3
+  workflow_dispatch:
+4
+  schedule: 
+5
+    # 代表国际标准时间4点0分，北京时间需要+8小时，代表北京时间中午12点运行
+6
+    - cron: '0 0 * * *'
+7
+jobs:
+8
+#将工作流程中运行的所有作业组合在一起
+9
+  build:
+10
+  #定义名为 build 的作业。 子键将定义作业的属性 
+11
+    runs-on: ubuntu-latest 
+12
+    steps:
+13
+      - uses: actions/checkout@v2
+14
+    
+15
+      - name: Set up Python 3.9
+16
+        uses: actions/setup-python@v2
+17
+        with:
+18
+          python-version: 3.9.1
+19
+      - name: Set timezone
+20
+        run: |
+21
+          cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+22
+      - name: install pip packages
+23
+        run: |
+24
+          python -m pip install --upgrade pip
+25
+          pip3 install -r requirements.txt
+26
+      - name: weixin
+27
+        run: |
+28
+          python3 main.py
+29
+​
